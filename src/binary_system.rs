@@ -10,7 +10,7 @@
 //! Examples:
 //!
 //! * `1B/s` is equal to `8bps`
-//! * `1kiB/s` is equal to `8.192kbps`
+//! * `1KiB/s` is equal to `8.192kbps`
 //! * `1MiBps` is equal to `8.388_608kbps`
 //!
 //! # Example
@@ -184,7 +184,7 @@ impl Parser<'_> {
 /// span is an number and a suffix. Supported suffixes:
 ///
 /// * `Bps`, `Byte/s`, `B/s`, `ops`, 'o/s` -- Byte per second
-/// * `kiBps`, `kiByte/s`, `kiB/s`, `kiops`, 'kio/s` -- kibiByte per second
+/// * `KiBps`, `KiByte/s`, `KiB/s`, `Kiops`, 'Kio/s` -- kibiByte per second
 /// * `MiBps`, `MiByte/s`, `MiB/s`, `Miops`, 'Mio/s` -- mebiByte per second
 /// * `GiBps`, `GiByte/s`, `GiB/s`, `Giops`, 'Gio/s` -- gibiByte per second
 /// * `TiBps`, `TiByte/s`, `TiB/s`, `Tiops`, 'Tio/s` -- tebiByte per second
@@ -200,10 +200,10 @@ impl Parser<'_> {
 ///
 /// assert_eq!(parse_binary_bandwidth("9TiBps 420GiBps"), Ok(Bandwidth::new(82772, 609728512)));
 /// assert_eq!(parse_binary_bandwidth("4MiBps"), Ok(Bandwidth::new(0, 4 * 8 * 1024 * 1024)));
-/// assert_eq!(parse_binary_bandwidth("150.024kiBps"),
+/// assert_eq!(parse_binary_bandwidth("150.024KiBps"),
 ///            Ok(Bandwidth::new(0, (150.024 * 1024_f64).round() as u32 * 8)));
 /// // The fractional part less than 1Bps will always be ignored
-/// assert_eq!(parse_binary_bandwidth("150.02456kiBps"),
+/// assert_eq!(parse_binary_bandwidth("150.02456KiBps"),
 ///            Ok(Bandwidth::new(0, (150.02456 * 1024_f64).round() as u32 * 8)));
 /// ```
 pub fn parse_binary_bandwidth(s: &str) -> Result<Bandwidth, Error> {
@@ -263,7 +263,7 @@ impl fmt::Display for LargestBinaryUnit {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             LargestBinaryUnit::Bps => f.write_str("B/s"),
-            LargestBinaryUnit::KiBps => f.write_str("kiB/s"),
+            LargestBinaryUnit::KiBps => f.write_str("KiB/s"),
             LargestBinaryUnit::MiBps => f.write_str("MiB/s"),
             LargestBinaryUnit::GiBps => f.write_str("GiB/s"),
             LargestBinaryUnit::TiBps => f.write_str("TiB/s"),
@@ -303,7 +303,7 @@ impl FormattedBinaryBandwidth {
         item(f, started, "TiB/s", tibps)?;
         item(f, started, "GiB/s", gibps)?;
         item(f, started, "MiB/s", mibps)?;
-        item(f, started, "kiB/s", kibps)?;
+        item(f, started, "KiB/s", kibps)?;
         item(f, started, "B/s", bps)?;
         Ok(())
     }
@@ -495,7 +495,7 @@ mod tests {
             Ok(new_bandwidth(0, 0, 0, 0, 22))
         );
         assert_eq!(
-            parse_binary_bandwidth("51kiBps"),
+            parse_binary_bandwidth("51KiBps"),
             Ok(new_bandwidth(0, 0, 0, 51, 0))
         );
         assert_eq!(
@@ -503,7 +503,7 @@ mod tests {
             Ok(new_bandwidth(0, 0, 0, 79, 0))
         );
         assert_eq!(
-            parse_binary_bandwidth("81kiByte/s"),
+            parse_binary_bandwidth("81KiByte/s"),
             Ok(new_bandwidth(0, 0, 0, 81, 0))
         );
         assert_eq!(
@@ -511,7 +511,7 @@ mod tests {
             Ok(new_bandwidth(0, 0, 0, 100, 0))
         );
         assert_eq!(
-            parse_binary_bandwidth("150kiB/s"),
+            parse_binary_bandwidth("150KiB/s"),
             Ok(new_bandwidth(0, 0, 0, 150, 0))
         );
         assert_eq!(
@@ -519,7 +519,7 @@ mod tests {
             Ok(new_bandwidth(0, 0, 0, 410, 0))
         );
         assert_eq!(
-            parse_binary_bandwidth("251kiops"),
+            parse_binary_bandwidth("251Kiops"),
             Ok(new_bandwidth(0, 0, 0, 251, 0))
         );
         assert_eq!(
@@ -527,7 +527,7 @@ mod tests {
             Ok(new_bandwidth(0, 0, 0, 279, 0))
         );
         assert_eq!(
-            parse_binary_bandwidth("250kio/s"),
+            parse_binary_bandwidth("250Kio/s"),
             Ok(new_bandwidth(0, 0, 0, 250, 0))
         );
         assert_eq!(
@@ -671,7 +671,7 @@ mod tests {
             Ok(new_bandwidth(0, 0, 0, 0, 16))
         );
         assert_eq!(
-            parse_binary_bandwidth("51.6kiBps"),
+            parse_binary_bandwidth("51.6KiBps"),
             Ok(new_bandwidth(0, 0, 0, 51, 614))
         );
         assert_eq!(
@@ -679,7 +679,7 @@ mod tests {
             Ok(new_bandwidth(0, 0, 0, 79, 799))
         );
         assert_eq!(
-            parse_binary_bandwidth("81.923kiByte/s"),
+            parse_binary_bandwidth("81.923KiByte/s"),
             Ok(new_bandwidth(0, 0, 0, 81, 945))
         );
         assert_eq!(
@@ -687,7 +687,7 @@ mod tests {
             Ok(new_bandwidth(0, 0, 0, 100, 126))
         );
         assert_eq!(
-            parse_binary_bandwidth("150.12345kiB/s"),
+            parse_binary_bandwidth("150.12345KiB/s"),
             Ok(new_bandwidth(0, 0, 0, 150, 126))
         );
         assert_eq!(
@@ -775,7 +775,7 @@ mod tests {
             Ok(new_bandwidth(0, 0, 0, 0, 6))
         );
         assert_eq!(
-            parse_binary_bandwidth("4kiBps 5KiBps 6kiByte/s"),
+            parse_binary_bandwidth("4KiBps 5KiBps 6KiByte/s"),
             Ok(new_bandwidth(0, 0, 0, 15, 0))
         );
         assert_eq!(
@@ -795,7 +795,7 @@ mod tests {
             Ok(new_bandwidth(0, 10, 5, 0, 1))
         );
         assert_eq!(
-            parse_binary_bandwidth("36MiBps 12kiBps 24Bps"),
+            parse_binary_bandwidth("36MiBps 12KiBps 24Bps"),
             Ok(new_bandwidth(0, 0, 36, 12, 24))
         );
     }
@@ -807,7 +807,7 @@ mod tests {
             Ok(new_bandwidth(0, 0, 0, 0, 6))
         );
         assert_eq!(
-            parse_binary_bandwidth("4.4kiBps 5.5KiBps 6.6kiByte/s"),
+            parse_binary_bandwidth("4.4KiBps 5.5KiBps 6.6KiByte/s"),
             Ok(new_bandwidth(0, 0, 0, 16, 512))
         );
         assert_eq!(
@@ -827,7 +827,7 @@ mod tests {
             Ok(new_bandwidth(0, 10, 107, 614, 410))
         );
         assert_eq!(
-            parse_binary_bandwidth("36.1MiBps 12.2kiBps 24.3Bps"),
+            parse_binary_bandwidth("36.1MiBps 12.2KiBps 24.3Bps"),
             Ok(new_bandwidth(0, 0, 36, 114, 639))
         );
     }
@@ -841,10 +841,10 @@ mod tests {
         );
         assert!(parse_binary_bandwidth("10_000_000_000_000_000_000Bps").is_ok());
         assert_eq!(
-            parse_binary_bandwidth("100_000_000_000_000_000_000kiBps"),
+            parse_binary_bandwidth("100_000_000_000_000_000_000KiBps"),
             Err(Error::NumberOverflow)
         );
-        assert!(parse_binary_bandwidth("10_000_000_000_000_000_000kiBps").is_ok());
+        assert!(parse_binary_bandwidth("10_000_000_000_000_000_000KiBps").is_ok());
         assert_eq!(
             parse_binary_bandwidth("100_000_000_000_000_000_000MiBps"),
             Err(Error::NumberOverflow)
@@ -879,7 +879,7 @@ mod tests {
         assert_eq!(
             parse_binary_bandwidth("10 byte/s").unwrap_err().to_string(),
             "unknown binary bandwidth unit \"byte/s\", \
-                    supported units: B/s, kiB/s, MiB/s, GiB/s, TiB/s"
+                    supported units: B/s, KiB/s, MiB/s, GiB/s, TiB/s"
         );
     }
 
@@ -910,7 +910,7 @@ mod tests {
         );
         assert_eq!(
             TestInteger::from(format_binary_bandwidth(new_bandwidth(0, 0, 0, 51, 0))).to_string(),
-            "51kiB/s"
+            "51KiB/s"
         );
         assert_eq!(
             TestInteger::from(format_binary_bandwidth(new_bandwidth(0, 0, 32, 0, 0))).to_string(),
@@ -973,7 +973,7 @@ mod tests {
         );
         assert_eq!(
             TestDecimal::from(format_binary_bandwidth(new_bandwidth(0, 0, 0, 51, 256))).to_string(),
-            "51.25kiB/s"
+            "51.25KiB/s"
         );
         assert_eq!(
             TestDecimal::from(format_binary_bandwidth(new_bandwidth(0, 0, 32, 256, 0))).to_string(),
@@ -1032,7 +1032,7 @@ mod tests {
             (new_bandwidth(0, 0, 0, 0, 0), 0, 0, "B/s", 0),
             (new_bandwidth(0, 0, 0, 0, 1), 1, 0, "B/s", 0),
             (new_bandwidth(0, 0, 0, 0, 15), 15, 0, "B/s", 0),
-            (new_bandwidth(0, 0, 0, 51, 256), 51, 250, "kiB/s", 3),
+            (new_bandwidth(0, 0, 0, 51, 256), 51, 250, "KiB/s", 3),
             (new_bandwidth(0, 0, 32, 256, 0), 32, 250_000, "MiB/s", 6),
             (new_bandwidth(0, 0, 79, 0, 5), 79, 5, "MiB/s", 6),
             (new_bandwidth(0, 0, 100, 128, 7), 100, 125_007, "MiB/s", 6),

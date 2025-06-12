@@ -9,7 +9,7 @@
 //!
 //! * Enable `serde` feature for serde integration.
 //! * Enable `display-integer` feature to display integer values only.
-//! * Enable `binary-system` feature to display in binary prefix system (e.g. `1kiB/s` instead of `8.192kbps`)
+//! * Enable `binary-system` feature to display in binary prefix system (e.g. `1KiB/s` instead of `8.192kbps`)
 
 use std::{error::Error as StdError, fmt, str::Chars};
 
@@ -125,7 +125,7 @@ impl fmt::Display for Error {
                 write!(
                     f,
                     "unknown binary bandwidth unit {:?}, \
-                    supported units: B/s, kiB/s, MiB/s, GiB/s, TiB/s",
+                    supported units: B/s, KiB/s, MiB/s, GiB/s, TiB/s",
                     unit
                 )
             }

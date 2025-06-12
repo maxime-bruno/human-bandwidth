@@ -190,11 +190,11 @@ mod tests {
             bandwidth: Bandwidth,
         }
 
-        let json = r#"{"bandwidth": "1kiBps"}"#;
+        let json = r#"{"bandwidth": "1KiBps"}"#;
         let foo = serde_json::from_str::<Foo>(json).unwrap();
         assert_eq!(foo.bandwidth, Bandwidth::from_bps(8 * 1024));
         let reverse = serde_json::to_string(&foo).unwrap();
-        assert_eq!(reverse, r#"{"bandwidth":"1kiB/s"}"#);
+        assert_eq!(reverse, r#"{"bandwidth":"1KiB/s"}"#);
     }
 
     #[test]
